@@ -1,6 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 
-const Index = () => <h5> React / Webpack4 / Babel 7 / Less </h5>
+import rootReducer from './controller/redux/reducers'
+import Router from './router'
 
-ReactDOM.render(<Index />, document.getElementById('index'))
+const store = createStore(rootReducer)
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Router />
+  </Provider>,
+
+  document.getElementById('index')
+)

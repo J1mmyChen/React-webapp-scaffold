@@ -15,10 +15,19 @@
   },
   "plugins": ["react"],
   "rules": {
-    "indent": ["error", 4],
+    "indent": ["off"],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "never"],
-    "react/jsx-filename-extension": ["warn"]
+    "no-unused-vars": ["warn"],
+    "max-len": ["off"],
+    "comma-dangle": ["off"],
+    "no-plusplus": ["off"],
+
+    "react/jsx-filename-extension": ["off"],
+    "react/prefer-stateless-function": ["off"],
+    "react/jsx-indent": ["off"],
+    "react/jsx-max-props-per-line": ["off"],
+    "react/jsx-one-expression-per-line": ["off"]
   }
 }
