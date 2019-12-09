@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+db.json
+*.log
+node_modules/
+build/
+.deploy*/
+/dist/
+npm-debug.log*
+package-lock.json
+yarn-error.log
+yarn.lock
