@@ -1,0 +1,182 @@
+/* == reset css == */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Helvetica, Arial, '黑体', '宋体', sans-serif;
+  font-weight: 400;
+  color: #404040;
+  background: #eceff1;
+  height: 100vh;
+  min-height: 100%;
+}
+
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100vh;
+  min-height: 100%;
+}
+
+td,
+th,
+caption {
+  font-size: 14px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  font-size: 100%;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+  font-style: normal;
+  font-weight: normal;
+}
+
+a {
+  color: #00b7ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  border: none;
+  vertical-align: middle;
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+}
+
+input,
+textarea,
+select,
+button {
+  font: 14px Helvetica, Tahoma, Arial, 'Heiti SC', 'Microsoft YaHei',
+    'WenQuanYi Micro Hei';
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: ' ';
+  display: inline-block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+.main-page {
+  width: 100%;
+
+  .ft {
+    background: #404040;
+  }
+}
+
+.index {
+  width: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+}
+
+/* == font class == */
+// @font-face {
+//   font-family: 'SF-Pro';
+//   font-style: normal;
+//   font-weight: 400;
+//   src: url(/css/fonts/SF-Pro-Text-Light.otf);
+// }
+
+// @font-face {
+//   font-family: 'SF-Pro';
+//   font-style: normal;
+//   font-weight: 500;
+//   src: url(/css/fonts/SF-Pro-Text-Regular.otf);
+// }
+
+// @font-face {
+//   font-family: 'SF-Pro';
+//   font-style: normal;
+//   font-weight: 600;
+//   src: url(/css/fonts/SF-Pro-Text-Medium.otf);
+// }
+
+// @font-face {
+//   font-family: 'SF-Pro';
+//   font-style: normal;
+//   font-weight: 700;
+//   src: url(/css/fonts/SF-Pro-Text-Bold.otf);
+// }
+
+@media (min-width: 1000px) {
+  .index {
+    max-width: 1000px;
+  }
+}

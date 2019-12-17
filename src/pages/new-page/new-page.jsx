@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-class Header extends Component {
+class NewPage extends Component {
   render() {
-    return <div>Header</div>
+    return <h5>NewPage</h5>
   }
 }
 
-export default connect()(Header)
+export default connect()(NewPage)

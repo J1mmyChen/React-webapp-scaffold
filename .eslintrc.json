@@ -1,0 +1,49 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "rules": {
+    "indent": ["off"],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["warn", "single"],
+    "semi": ["error", "never"],
+    "no-unused-vars": ["warn"],
+    "max-len": ["off"],
+    "comma-dangle": ["off"],
+    "no-plusplus": ["off"],
+    "no-console": ["off"],
+    "no-trailing-spaces": ["off"],
+    "import/no-dynamic-require": ["off"],
+    "no-use-before-define": ["off"],
+    "default-case": ["off"],
+    "camelcase": ["off"],
+    "implicit-arrow-linebreak": ["off"],
+    "function-paren-newline": ["off"],
+    "operator-linebreak": ["off"],
+    "global-require": ["off"],
+    "import/order": ["off"],
+    "consistent-return": ["off"],
+    "semi-style": ["warn"],
+
+    "react/jsx-filename-extension": ["off"],
+    "react/prefer-stateless-function": ["off"],
+    "react/jsx-indent": ["off"],
+    "react/jsx-max-props-per-line": ["off"],
+    "react/jsx-one-expression-per-line": ["off"],
+    "react/prop-types": ["off"],
+    "react/forbid-prop-types": ["off"],
+    "react/destructuring-assignment": ["off"]
+  }
+}

@@ -2,14 +2,25 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>React / Webpack4 / Babel 7 / Less</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <script
+    src="//g.alicdn.com/fdilab/lib3rd/viewport-units-buggyfill/0.6.2/??viewport-units-buggyfill.hacks.min.js,viewport-units-buggyfill.min.js">
+  </script>
+  <title>React Webapp Scaffold"</title>
 </head>
 
 <body>
-  <section id="index"></section>
+  <main id="index" class="index"></main>
+  <!--使用 viewport-units-buggyfill 解决个别手机不支持vw-->
+  <script>
+    window.onload = function () {
+      window.viewportUnitsBuggyfill.init({
+        hacks: window.viewportUnitsBuggyfillHacks
+      })
+    }
+  </script>
 </body>
 
 </html>

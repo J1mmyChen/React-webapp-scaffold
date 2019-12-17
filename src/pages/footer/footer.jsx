@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-class Home extends Component {
+class Footer extends Component {
   render() {
-    return <h5>Home</h5>
+    return <h5>Footer</h5>
   }
 }
 
-export default connect()(Home)
+export default connect()(Footer)

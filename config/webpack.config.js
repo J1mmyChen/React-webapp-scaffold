@@ -1,4 +1,8 @@
-'use strict'
+/* eslint-disable no-multi-spaces */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable radix */
+require('postcss-flexbugs-fixes')
 
 const fs = require('fs')
 const path = require('path')
@@ -18,14 +22,23 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
-const paths = require('./paths')
-const modules = require('./modules')
-const getClientEnvironment = require('./env')
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin')
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
+const autoprefixer = require('autoprefixer')
 
 const postcssNormalize = require('postcss-normalize')
+
+// VW
+const postcssAspectRatioMini = require('postcss-aspect-ratio-mini')
+const postcssPxToViewport = require('postcss-px-to-viewport')
+const postcssWriteSvg = require('postcss-write-svg')
+const postcssCssnext = require('postcss-cssnext')
+const postcssViewportUnits = require('postcss-viewport-units')
+const cssnano = require('cssnano')
+const getClientEnvironment = require('./env')
+const modules = require('./modules')
+const paths = require('./paths')
 
 const appPackageJson = require(paths.appPackageJson)
 
@@ -43,8 +56,11 @@ const imageInlineSizeLimit = parseInt(
 const useTypeScript = fs.existsSync(paths.appTsConfig)
 
 // style files regexes
-const cssRegex = /\.(css|less)$/
-const cssModuleRegex = /\.module\.(css|less)$/
+const cssRegex = /\.(css)$/
+const cssModuleRegex = /\.module\.(css)$/
+// less 解析规则
+const lessRegex = /\.less$/
+const lessModuleRegex = /\.module\.less$/
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -89,28 +105,50 @@ module.exports = function(webpackEnv) {
         options: cssOptions
       },
       {
-        // Options for PostCSS as we reference these options twice
-        // Adds vendor prefixing based on your specified browser support in
-        // package.json
         loader: require.resolve('postcss-loader'),
         options: {
           // Necessary for external CSS imports to work
-          // https://github.com/facebook/create-react-app/issues/2677
+          // https://github.com/facebookincubator/create-react-app/issues/2677
           ident: 'postcss',
           plugins: () => [
-            require('postcss-flexbugs-fixes'),
-            require('postcss-preset-env')({
-              autoprefixer: {
-                flexbox: 'no-2009'
-              },
-              stage: 3
+            autoprefixer({
+              browsers: [
+                '>1%',
+                'last 4 versions',
+                'Firefox ESR',
+                'not ie < 9' // React doesn't support IE8 anyway
+              ],
+              flexbox: 'no-2009'
             }),
-            // Adds PostCSS Normalize as the reset css with default options,
-            // so that it honors browserslist config in package.json
-            // which in turn let's users customize the target behavior as per their needs.
-            postcssNormalize()
-          ],
-          sourceMap: isEnvProduction && shouldUseSourceMap
+            postcssAspectRatioMini({}), // 用来处理元素容器宽高比
+            postcssWriteSvg({
+              // 用来处理移动端1px的解决方案
+              utf8: false
+            }),
+            postcssCssnext({}), // 让项目使用CSS未来特性 并对其做兼容性处理
+            postcssPxToViewport({
+              unitToConvert: 'px',
+              viewportWidth: 375,
+              unitPrecision: 5,
+              propList: ['*'],
+              viewportUnit: 'vw',
+              fontViewportUnit: 'vw',
+              selectorBlackList: ['.ignore', '.hairlines'],
+              minPixelValue: 1,
+              mediaQuery: false,
+              replace: true,
+              exclude: [],
+              landscape: false,
+              landscapeUnit: 'vw',
+              landscapeWidth: 812
+            }),
+            postcssViewportUnits({}), // 给CSS的属性添加content的属性 配合viewport-units-buggyfill解决个别手机不支持vw
+            cssnano({
+              // 压缩和清理CSS代码
+              autoprefixer: false,
+              'postcss-zindex': false
+            })
+          ]
         }
       }
     ].filter(Boolean)
@@ -181,7 +219,7 @@ module.exports = function(webpackEnv) {
         : isEnvDevelopment && 'static/js/[name].chunk.js',
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // We use "/" in development.
-      publicPath: publicPath,
+      publicPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? (info) =>
@@ -336,7 +374,6 @@ module.exports = function(webpackEnv) {
               options: {
                 cache: true,
                 formatter: require.resolve('react-dev-utils/eslintFormatter'),
-                eslintPath: require.resolve('eslint'),
                 resolvePluginsRelativeTo: __dirname
               },
               loader: require.resolve('eslint-loader')
@@ -430,14 +467,11 @@ module.exports = function(webpackEnv) {
             {
               test: cssRegex,
               exclude: cssModuleRegex,
-              use: getStyleLoaders(
-                {
-                  importLoaders: 2, // 改成2
-                  modules: true, //使用模块方式访问样式
-                  sourceMap: isEnvProduction && shouldUseSourceMap
-                },
-                'less-loader' //增加loader
-              ),
+              use: getStyleLoaders({
+                importLoaders: 1,
+                modules: true,
+                sourceMap: isEnvProduction && shouldUseSourceMap
+              }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
               // Remove this when webpack adds a warning or an error for this.
@@ -455,6 +489,31 @@ module.exports = function(webpackEnv) {
                   getLocalIdent: getCSSModuleLocalIdent
                 }
               })
+            },
+            // Less 解析配置
+            {
+              test: lessRegex,
+              exclude: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap
+                },
+                'less-loader'
+              ),
+              sideEffects: true
+            },
+            {
+              test: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                  modules: true,
+                  getLocalIdent: getCSSModuleLocalIdent
+                },
+                'less-loader'
+              )
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
@@ -480,31 +539,26 @@ module.exports = function(webpackEnv) {
     },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
-      new HtmlWebpackPlugin(
-        Object.assign(
-          {},
-          {
-            inject: true,
-            template: paths.appHtml
-          },
-          isEnvProduction
-            ? {
-                minify: {
-                  removeComments: true,
-                  collapseWhitespace: true,
-                  removeRedundantAttributes: true,
-                  useShortDoctype: true,
-                  removeEmptyAttributes: true,
-                  removeStyleLinkTypeAttributes: true,
-                  keepClosingSlash: true,
-                  minifyJS: true,
-                  minifyCSS: true,
-                  minifyURLs: true
-                }
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: paths.appHtml,
+        ...(isEnvProduction
+          ? {
+              minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeRedundantAttributes: true,
+                useShortDoctype: true,
+                removeEmptyAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                keepClosingSlash: true,
+                minifyJS: true,
+                minifyCSS: true,
+                minifyURLs: true
               }
-            : undefined
-        )
-      ),
+            }
+          : undefined)
+      }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
@@ -554,7 +608,7 @@ module.exports = function(webpackEnv) {
       //   can be used to reconstruct the HTML if necessary
       new ManifestPlugin({
         fileName: 'asset-manifest.json',
-        publicPath: publicPath,
+        publicPath,
         generate: (seed, files, entrypoints) => {
           const manifestFiles = files.reduce((manifest, file) => {
             manifest[file.name] = file.path
@@ -583,7 +637,7 @@ module.exports = function(webpackEnv) {
           clientsClaim: true,
           exclude: [/\.map$/, /asset-manifest\.json$/],
           importWorkboxFrom: 'cdn',
-          navigateFallback: publicUrl + '/index.html',
+          navigateFallback: `${publicUrl}/index.html`,
           navigateFallbackBlacklist: [
             // Exclude URLs starting with /_, as they're likely an API call
             new RegExp('^/_'),
