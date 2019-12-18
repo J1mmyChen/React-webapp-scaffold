@@ -28,8 +28,6 @@ const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
 const autoprefixer = require('autoprefixer')
 const postcssPresetEnv = require('postcss-preset-env')
 
-// const postcssNormalize = require('postcss-normalize')
-
 // VW
 const postcssAspectRatioMini = require('postcss-aspect-ratio-mini')
 const postcssPxToViewport = require('postcss-px-to-viewport')
@@ -125,7 +123,7 @@ module.exports = function(webpackEnv) {
               // 用来处理移动端1px的解决方案
               utf8: false
             }),
-            postcssPresetEnv.process(),
+            postcssPresetEnv(),
             postcssPxToViewport({
               unitToConvert: 'px',
               viewportWidth: 375,
