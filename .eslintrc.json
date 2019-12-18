@@ -36,6 +36,9 @@
     "import/order": ["off"],
     "consistent-return": ["off"],
     "semi-style": ["warn"],
+    "func-names": ["off"],
+    "space-before-function-paren": ["off"],
+    "no-shadow": ["warn"],
 
     "react/jsx-filename-extension": ["off"],
     "react/prefer-stateless-function": ["off"],

@@ -67,7 +67,6 @@
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.5.0",
     "postcss-aspect-ratio-mini": "^1.0.1",
-    "postcss-cssnext": "^3.1.0",
     "postcss-flexbugs-fixes": "4.1.0",
     "postcss-loader": "3.0.0",
     "postcss-normalize": "8.0.1",
@@ -85,18 +84,6 @@
     "terser-webpack-plugin": "2.2.1",
     "ts-pnp": "1.1.5",
     "url-loader": "2.3.0"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "jest": {
     "roots": [
@@ -143,6 +130,18 @@
   "babel": {
     "presets": [
       "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }

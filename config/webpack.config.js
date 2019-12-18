@@ -26,14 +26,14 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin')
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
 const autoprefixer = require('autoprefixer')
+const postcssPresetEnv = require('postcss-preset-env')
 
-const postcssNormalize = require('postcss-normalize')
+// const postcssNormalize = require('postcss-normalize')
 
 // VW
 const postcssAspectRatioMini = require('postcss-aspect-ratio-mini')
 const postcssPxToViewport = require('postcss-px-to-viewport')
 const postcssWriteSvg = require('postcss-write-svg')
-const postcssCssnext = require('postcss-cssnext')
 const postcssViewportUnits = require('postcss-viewport-units')
 const cssnano = require('cssnano')
 const getClientEnvironment = require('./env')
@@ -112,7 +112,7 @@ module.exports = function(webpackEnv) {
           ident: 'postcss',
           plugins: () => [
             autoprefixer({
-              browsers: [
+              overrideBrowserslist: [
                 '>1%',
                 'last 4 versions',
                 'Firefox ESR',
@@ -125,7 +125,7 @@ module.exports = function(webpackEnv) {
               // 用来处理移动端1px的解决方案
               utf8: false
             }),
-            postcssCssnext({}), // 让项目使用CSS未来特性 并对其做兼容性处理
+            postcssPresetEnv.process(),
             postcssPxToViewport({
               unitToConvert: 'px',
               viewportWidth: 375,
